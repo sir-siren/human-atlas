@@ -1,0 +1,41 @@
+{
+    "name": "Human Atlas · Ubuntu 26.04",
+    "build": {
+        "dockerfile": "Dockerfile",
+        "context": "..",
+        "options": ["--pull"]
+    },
+    "remoteUser": "vscode",
+    "updateRemoteUserUID": true,
+    "init": true,
+    "forwardPorts": [3016],
+    "portsAttributes": {
+        "3016": {
+            "label": "Human Atlas",
+            "onAutoForward": "notify"
+        }
+    },
+    "postCreateCommand": "bash .devcontainer/post-create.sh",
+    "waitFor": "postCreateCommand",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "rust-lang.rust-analyzer",
+                "oxc.oxc-vscode"
+            ],
+            "settings": {
+                "terminal.integrated.defaultProfile.linux": "bash",
+                "rust-analyzer.linkedProjects": ["engine/Cargo.toml"],
+                "rust-analyzer.cargo.buildScripts.enable": false,
+                "rust-analyzer.checkOnSave": false,
+                "rust-analyzer.procMacro.enable": false,
+                "js/ts.tsserver.maxMemory": 512,
+                "files.watcherExclude": {
+                    "**/node_modules/**": true,
+                    "**/engine/target/**": true,
+                    "**/dist/**": true
+                }
+            }
+        }
+    }
+}
