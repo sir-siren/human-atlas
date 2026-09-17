@@ -17,7 +17,7 @@ BodyParts3D represents an adult male reference anatomy based on TARO MRI and ana
 
 ## Historical assets (not included in the current release)
 
-Earlier repository revisions included female reference anatomy: Kristen Browne and Heidi Schlehlein, Human Reference Atlas / HuBMAP, *3D Reference Organ Set for Female v1.5* (2023). CC BY 4.0. Geometry adapted for this viewer.
+Earlier repository revisions included female reference anatomy: Kristen Browne and Heidi Schlehlein, Human Reference Atlas / HuBMAP, _3D Reference Organ Set for Female v1.5_ (2023). CC BY 4.0. Geometry adapted for this viewer.
 
 - Source DOI: https://doi.org/10.48539/HBM352.BTSQ.586
 - Dataset: https://lod.humanatlas.io/ref-organ/united-female/v1.5

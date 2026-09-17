@@ -37,3 +37,32 @@ next-env.d.ts
 /outputs/
 /work/
 *.tsbuildinfo
+
+# Build output
+/target/
+**/target/
+
+# Cargo
+Cargo.lock  # remove this line if this repo is a binary, not a library
+
+# Backup files from rustfmt
+**/*.rs.bk
+
+# Environment and secrets
+.env
+.env.*
+
+# Editor/IDE
+.vscode/
+.idea/
+*.iml
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Debug info
+*.pdb
+
+# WSL/Windows Git Bash artifacts
+*.swp

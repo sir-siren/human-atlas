@@ -1,0 +1,11 @@
+{
+    "recommendations": [
+        "oven.bun-vscode",
+        "editorconfig.editorconfig",
+        "esbenp.prettier-vscode",
+        "dustypomerleau.rust-syntax",
+        "rust-lang.rust-analyzer",
+        "bradlc.vscode-tailwindcss",
+        "oxc.oxc-vscode"
+    ]
+}

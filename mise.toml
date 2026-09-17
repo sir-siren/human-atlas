@@ -1,0 +1,56 @@
+[tools]
+bun = "1.4.2"
+# node = "22"
+rust = "1.98.1"
+
+[tasks.dev]
+description = "Start the Vite dev server"
+run = "bun vite"
+
+[tasks.build]
+description = "Build the WASM engine and the production site"
+run = "bun scripts/build-engine.ts && bun vite build"
+
+[tasks.check]
+description = "Typecheck without emitting"
+run = "bun tsc --noEmit"
+
+[tasks.lint]
+description = "Lint with oxlint"
+run = "bun oxlint"
+
+[tasks.test]
+description = "Run the Vitest suites"
+run = "bun vitest run"
+
+[tasks.engine-build]
+description = "Build the Rust/WASM engine with wasm-pack"
+run = "bun scripts/build-engine.ts"
+
+[tasks.engine-test]
+description = "Run native cargo tests for the engine"
+run = "cd engine && cargo test --workspace --locked"
+
+[tasks.engine-check]
+description = "Run clippy with warnings denied"
+run = "cd engine && cargo clippy --workspace --locked -- -D warnings"
+
+[tasks.validate-atlas]
+description = "Validate the atlas manifest and binary buffers"
+run = "bun scripts/validate-atlas.ts"
+
+[tasks.validate-interactions]
+description = "Validate packing, search, and interaction contracts"
+run = "bun scripts/validate-interactions.ts"
+
+[tasks.validate-oxc]
+description = "Verify the OXC toolchain on strict TS/TSX"
+run = "bun scripts/oxc-verify.ts"
+
+[tasks.validate]
+description = "Run the full validation pipeline"
+depends = ["check", "lint", "test", "validate-atlas", "validate-interactions", "validate-oxc"]
+
+[tasks.preview]
+description = "Serve the production build"
+run = "bun vite preview"
