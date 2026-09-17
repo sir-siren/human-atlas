@@ -1,11 +1,32 @@
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
+import { gunzipSync } from "node:zlib";
 import {
     SYSTEMS,
     type Atlas,
     type Part,
     type ChunkInfo,
 } from "../src/features/anatomy";
+
+export const MODEL_DATASETS = ["male", "female"] as const;
+export type ModelDataset = (typeof MODEL_DATASETS)[number];
+
+/** Select dataset names for a pipeline command; omitted arguments select both. */
+export function modelDatasets(args = process.argv.slice(2)): ModelDataset[] {
+    if (!args.length) return [...MODEL_DATASETS];
+    return args.map((name) => {
+        assert.ok(
+            name === "male" || name === "female",
+            "Expected male or female",
+        );
+        return name;
+    });
+}
+
+/** Resolve the directory containing a dataset's atlas.json and geometry chunks. */
+export function modelDirectory(dataset: ModelDataset): URL {
+    return new URL(`../public/models/${dataset}/`, import.meta.url);
+}
 
 type Mutable<T> = { -readonly [K in keyof T]: T[K] };
 export interface AtlasManifest extends Omit<
@@ -127,6 +148,37 @@ function validateManifest(value: unknown): asserts value is AtlasManifest {
  */
 export function readAtlasManifest(path: URL): AtlasManifest {
     return parseAtlasManifest(readFileSync(path, "utf8"));
+}
+
+/**
+ * Read decoded geometry from raw converter output or a gzip-only release.
+ * Validate compressed and decoded lengths; reject corrupt or inconsistent assets.
+ */
+export function readModelChunk(chunk: ChunkInfo, directory: URL): Buffer {
+    const rawPath = new URL(modelFilename(chunk.url), directory);
+    let decoded: Buffer | undefined;
+    if (chunk.gzip) {
+        const gzipPath = new URL(modelFilename(chunk.gzip), directory);
+        if (existsSync(gzipPath)) {
+            const compressed = readFileSync(gzipPath);
+            if (chunk.gzipBytes !== undefined)
+                assert.equal(
+                    compressed.length,
+                    chunk.gzipBytes,
+                    "Gzip size mismatch",
+                );
+            decoded = gunzipSync(compressed);
+        }
+    }
+    if (existsSync(rawPath)) {
+        const raw = readFileSync(rawPath);
+        if (decoded)
+            assert.ok(raw.equals(decoded), "Raw and gzip geometry differ");
+        decoded = raw;
+    }
+    assert.ok(decoded, `Missing geometry: ${chunk.url}`);
+    assert.equal(decoded.length, chunk.bytes, "Decoded geometry size mismatch");
+    return decoded;
 }
 
 /**

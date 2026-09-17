@@ -1,4 +1,5 @@
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
+import type { ModelSex } from "./anatomy";
 import AnatomyScene from "./AnatomyScene";
 import { AboutSheet } from "../components/AboutSheet/AboutSheet";
 import { DetailsSheet } from "../components/DetailsSheet/DetailsSheet";
@@ -10,19 +11,68 @@ import { SearchPanel } from "../components/SearchPanel/SearchPanel";
 import { useAtlasCatalogue } from "./hooks/useAtlasCatalogue";
 import { useExplorerState } from "./hooks/useExplorerState";
 import { useRenderQuality } from "./hooks/useRenderQuality";
-import { parseRenderQuality } from "./scene/render-quality";
+import { parseRenderQuality, type RenderQuality } from "./scene/render-quality";
 
+/** Keep graphics preferences while remounting model-owned state on a reference switch. */
 export default function AnatomyExplorer(): ReactNode {
-    const { atlas, progress, errorMessage, onProgress, onError } =
-        useAtlasCatalogue();
-    const explorer = useExplorerState(atlas);
+    const [sex, setSex] = useState<ModelSex>("male");
     const { quality, setQuality } = useRenderQuality();
+    return (
+        <main className="studio">
+            <ModelExplorer key={sex} sex={sex} quality={quality} />
+            <div className="quality-control">
+                <div
+                    className="model-toggle"
+                    role="group"
+                    aria-label="Anatomy model"
+                >
+                    {(["male", "female"] as const).map((model) => (
+                        <button
+                            key={model}
+                            type="button"
+                            aria-pressed={sex === model}
+                            onClick={() => setSex(model)}
+                        >
+                            {model === "male" ? "Male" : "Female"}
+                        </button>
+                    ))}
+                </div>
+                <label>
+                    <span>Graphics</span>
+                    <select
+                        aria-label="Graphics quality"
+                        value={quality}
+                        onChange={(event) =>
+                            setQuality(parseRenderQuality(event.target.value))
+                        }
+                    >
+                        <option value="low">Low</option>
+                        <option value="balanced">Balanced</option>
+                        <option value="high">High</option>
+                    </select>
+                </label>
+            </div>
+        </main>
+    );
+}
+
+/** Own one reference's catalogue, scene and selection until that reference is unmounted. */
+function ModelExplorer({
+    sex,
+    quality,
+}: {
+    readonly sex: ModelSex;
+    readonly quality: RenderQuality;
+}): ReactNode {
+    const { atlas, progress, errorMessage, onProgress, onError } =
+        useAtlasCatalogue(sex);
+    const explorer = useExplorerState(atlas);
     const { sceneState } = explorer;
     const inspectorOpen =
         explorer.isDetailsOpen && explorer.selectedParts.length > 0;
 
     return (
-        <main className="studio">
+        <>
             {atlas && (
                 <AnatomyScene
                     atlas={atlas}
@@ -34,21 +84,8 @@ export default function AnatomyExplorer(): ReactNode {
                 />
             )}
             <div className="vignette" />
-            <label className="quality-control">
-                <span>Graphics</span>
-                <select
-                    aria-label="Graphics quality"
-                    value={quality}
-                    onChange={(event) =>
-                        setQuality(parseRenderQuality(event.target.value))
-                    }
-                >
-                    <option value="low">Low</option>
-                    <option value="balanced">Balanced</option>
-                    <option value="high">High</option>
-                </select>
-            </label>
             <ExplorerHeader
+                sex={sex}
                 pieceCount={atlas?.parts.length}
                 activePanel={explorer.activePanel}
                 onOpenPanel={explorer.handleOpenPanel}
@@ -92,6 +129,7 @@ export default function AnatomyExplorer(): ReactNode {
                 pieceCount={atlas?.parts.length}
             />
             <DetailsSheet
+                sex={sex}
                 isOpen={inspectorOpen}
                 isolate={sceneState.isolate}
                 chosenConcept={explorer.chosenConcept}
@@ -106,6 +144,6 @@ export default function AnatomyExplorer(): ReactNode {
                 isOpen={explorer.isAboutOpen}
                 onOpenChange={explorer.setIsAboutOpen}
             />
-        </main>
+        </>
     );
 }

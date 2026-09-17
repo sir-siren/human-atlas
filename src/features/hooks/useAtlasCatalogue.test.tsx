@@ -47,7 +47,7 @@ describe("atlas catalogue lifecycle", () => {
         expect(state().atlas).toEqual(atlas);
         expect(fetchMock).toHaveBeenCalledTimes(1);
         const call = fetchMock.mock.calls[0];
-        expect(call?.[0]).toBe("/models/atlas.json");
+        expect(call?.[0]).toBe("/models/male/atlas.json");
         const signal = call?.[1]?.signal;
         expect(signal?.aborted).toBe(false);
         await act(async () => {

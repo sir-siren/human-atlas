@@ -1,13 +1,18 @@
 import assert from "node:assert/strict";
-import { at, readAtlasManifest } from "./atlas-manifest";
+import {
+    at,
+    modelDatasets,
+    modelDirectory,
+    readAtlasManifest,
+} from "./atlas-manifest";
 import type { Concept } from "../src/features/anatomy";
 import { createExplosionLayout } from "../src/features/explosion-layout";
 import { PointerTap } from "../src/features/pointer-tap";
 import { atlasTools } from "../src/features/agent-tools";
 
-for (const file of ["atlas.json"]) {
+for (const dataset of modelDatasets()) {
     const atlas = readAtlasManifest(
-        new URL(`../public/models/${file}`, import.meta.url),
+        new URL("atlas.json", modelDirectory(dataset)),
     );
     const groups = [
         atlas.parts,
@@ -60,7 +65,7 @@ for (const file of ["atlas.json"]) {
     assert.equal(selected, previous);
     assert.throws(() => find.execute({ query: " " }));
     console.log(
-        `${file}: packing at desktop/mobile aspect ratios and search/inspection contracts passed.`,
+        `${dataset}: packing at desktop/mobile aspect ratios and search/inspection contracts passed.`,
     );
 }
 const tap = new PointerTap();

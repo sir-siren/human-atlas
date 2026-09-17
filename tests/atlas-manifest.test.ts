@@ -1,9 +1,15 @@
 import { AssertionError } from "node:assert";
+import { existsSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import {
     at,
+    MODEL_DATASETS,
+    modelDatasets,
+    modelDirectory,
     modelFilename,
     parseAtlasManifest,
+    readAtlasManifest,
+    readModelChunk,
 } from "../scripts/atlas-manifest";
 
 function fixture() {
@@ -98,6 +104,63 @@ describe("script manifest boundary", () => {
         expect(() => parseAtlasManifest(JSON.stringify(input))).toThrow(
             AssertionError,
         );
+    });
+
+    it("selects both datasets by default and rejects unknown names", () => {
+        expect(modelDatasets([])).toEqual(["male", "female"]);
+        expect(modelDatasets(["female"])).toEqual(["female"]);
+        expect(() => modelDatasets(["other"])).toThrow(
+            "Expected male or female",
+        );
+    });
+
+    it.each(MODEL_DATASETS)(
+        "reads the packaged %s gzip-only dataset",
+        (dataset) => {
+            const directory = modelDirectory(dataset);
+            const manifest = readAtlasManifest(
+                new URL("atlas.json", directory),
+            );
+            expect(manifest.parts).toHaveLength(
+                dataset === "male" ? 2234 : 888,
+            );
+            expect(manifest.concepts).toHaveLength(
+                dataset === "male" ? 3432 : 1073,
+            );
+            expect(manifest.optimized?.preservedMeshes).toBe(
+                manifest.parts.length,
+            );
+            for (const chunk of manifest.chunks) {
+                expect(chunk.url).toMatch(
+                    new RegExp(`^/models/${dataset}/[^/]+\\.bin$`),
+                );
+                expect(chunk.gzip).toBe(`${chunk.url}.gz`);
+                expect(
+                    existsSync(new URL(modelFilename(chunk.gzip!), directory)),
+                ).toBe(true);
+                expect(readModelChunk(chunk, directory).length).toBe(
+                    chunk.bytes,
+                );
+            }
+        },
+    );
+
+    it("rejects inconsistent gzip metadata without requiring raw files", () => {
+        const directory = modelDirectory("female");
+        const chunk = readAtlasManifest(new URL("atlas.json", directory))
+            .chunks[0]!;
+        expect(() => readModelChunk({ ...chunk, bytes: 1 }, directory)).toThrow(
+            "Decoded geometry size mismatch",
+        );
+        expect(() =>
+            readModelChunk({ ...chunk, gzipBytes: 1 }, directory),
+        ).toThrow("Gzip size mismatch");
+        expect(() =>
+            readModelChunk(
+                { url: "/models/female/missing.bin", bytes: 1 },
+                directory,
+            ),
+        ).toThrow("Missing geometry");
     });
 
     it("rejects malformed JSON", () => {

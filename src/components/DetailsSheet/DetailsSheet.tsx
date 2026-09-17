@@ -13,9 +13,11 @@ import {
     explanation,
     type Concept,
     type Part,
+    type ModelSex,
 } from "../../features/anatomy";
 
 interface DetailsSheetProps {
+    readonly sex: ModelSex;
     readonly isOpen: boolean;
     readonly isolate: boolean;
     readonly chosenConcept: Concept | null;
@@ -28,6 +30,7 @@ interface DetailsSheetProps {
 }
 
 export function DetailsSheet({
+    sex,
     isOpen,
     isolate,
     chosenConcept,
@@ -128,7 +131,11 @@ export function DetailsSheet({
 
                     <a
                         className="source-link"
-                        href="https://lifesciencedb.jp/bp3d/"
+                        href={
+                            sex === "male"
+                                ? "https://lifesciencedb.jp/bp3d/"
+                                : "https://lod.humanatlas.io/ref-organ/united-female/v1.5"
+                        }
                         target="_blank"
                         rel="noreferrer"
                     >

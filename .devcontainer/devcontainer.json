@@ -19,10 +19,7 @@
     "waitFor": "postCreateCommand",
     "customizations": {
         "vscode": {
-            "extensions": [
-                "rust-lang.rust-analyzer",
-                "oxc.oxc-vscode"
-            ],
+            "extensions": ["rust-lang.rust-analyzer", "oxc.oxc-vscode"],
             "settings": {
                 "terminal.integrated.defaultProfile.linux": "bash",
                 "rust-analyzer.linkedProjects": ["engine/Cargo.toml"],

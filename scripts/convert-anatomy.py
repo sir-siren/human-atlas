@@ -8,7 +8,7 @@ Source and attribution: ``public/ATTRIBUTION.md``.
 
 Usage::
 
-    python3 scripts/convert_anatomy.py OBJ_DIRECTORY CONCEPT_MAP [SYSTEM_MAP]
+    python3 scripts/convert-anatomy.py OBJ_DIRECTORY CONCEPT_MAP [SYSTEM_MAP]
 """
 
 from __future__ import annotations
@@ -44,7 +44,7 @@ DEFAULT_SYSTEM: Final = "connective"
 ENGLISH_NAME_PREFIX: Final = "# English name : "
 
 MANIFEST_NAME: Final = "atlas.json"
-OUTPUT_SUBDIR: Final = "public/models"
+OUTPUT_SUBDIR: Final = "public/models/female"
 CONCEPT_FIELDS: Final = frozenset({"id", "name", "elements"})
 
 
@@ -137,7 +137,7 @@ class ChunkWriter:
     def _flush(self) -> None:
         name = f"anatomy-{self._index}.bin"
         (self._directory / name).write_bytes(self._buffer)
-        self._chunks.append({"url": f"/models/{name}", "bytes": len(self._buffer)})
+        self._chunks.append({"url": f"/models/female/{name}", "bytes": len(self._buffer)})
 
 
 def parse_obj(path: Path, fallback_name: str) -> Mesh:

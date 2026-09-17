@@ -13,7 +13,10 @@ export type SystemId =
     | "integumentary"
     | "connective"
     | "sensory"
-    | "cardiac";
+    | "cardiac"
+    | "pregnancy";
+
+export type ModelSex = "male" | "female";
 
 export interface System {
     readonly id: SystemId;
@@ -112,7 +115,7 @@ export const SYSTEMS: readonly System[] = [
         name: "Reproductive",
         color: "#bda098",
         description:
-            "The male reproductive structures represented here contribute to sperm production, maturation, transport, and the production of sex hormones.",
+            "Reproductive structures contribute to the production and transport of reproductive cells and sex hormones. Their anatomy differs between the reference models.",
     },
     {
         id: "integumentary",
@@ -120,6 +123,13 @@ export const SYSTEMS: readonly System[] = [
         color: "#ba9b7d",
         description:
             "The body surface provides an outer anatomical reference. The integumentary system forms a protective barrier and contributes to sensation and temperature regulation.",
+    },
+    {
+        id: "pregnancy",
+        name: "Pregnancy reference",
+        color: "#bda098",
+        description:
+            "Placental and umbilical reference structures illustrate pregnancy-related anatomy. They are separate reference assets, not evidence that the assembled body represents a pregnant individual.",
     },
     {
         id: "connective",
@@ -171,7 +181,7 @@ export interface ChunkInfo {
  */
 export interface Atlas {
     readonly version: string;
-    readonly sex?: "male";
+    readonly sex?: ModelSex;
     readonly source?: string;
     readonly scope?: string;
     readonly parts: readonly Part[];

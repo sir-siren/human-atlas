@@ -36360,93 +36360,93 @@
     ],
     "chunks": [
         {
-            "url": "/models/body-0.bin",
+            "url": "/models/male/body-0.bin",
             "bytes": 4019496,
-            "gzip": "/models/body-0.bin.gz",
+            "gzip": "/models/male/body-0.bin.gz",
             "gzipBytes": 2257262
         },
         {
-            "url": "/models/body-1.bin",
+            "url": "/models/male/body-1.bin",
             "bytes": 4526484,
-            "gzip": "/models/body-1.bin.gz",
+            "gzip": "/models/male/body-1.bin.gz",
             "gzipBytes": 2299850
         },
         {
-            "url": "/models/body-2.bin",
+            "url": "/models/male/body-2.bin",
             "bytes": 4438056,
-            "gzip": "/models/body-2.bin.gz",
+            "gzip": "/models/male/body-2.bin.gz",
             "gzipBytes": 2312911
         },
         {
-            "url": "/models/body-3.bin",
+            "url": "/models/male/body-3.bin",
             "bytes": 4041436,
-            "gzip": "/models/body-3.bin.gz",
+            "gzip": "/models/male/body-3.bin.gz",
             "gzipBytes": 2079806
         },
         {
-            "url": "/models/body-4.bin",
+            "url": "/models/male/body-4.bin",
             "bytes": 4020544,
-            "gzip": "/models/body-4.bin.gz",
+            "gzip": "/models/male/body-4.bin.gz",
             "gzipBytes": 2075177
         },
         {
-            "url": "/models/body-5.bin",
+            "url": "/models/male/body-5.bin",
             "bytes": 4022564,
-            "gzip": "/models/body-5.bin.gz",
+            "gzip": "/models/male/body-5.bin.gz",
             "gzipBytes": 2176648
         },
         {
-            "url": "/models/body-6.bin",
+            "url": "/models/male/body-6.bin",
             "bytes": 4035584,
-            "gzip": "/models/body-6.bin.gz",
+            "gzip": "/models/male/body-6.bin.gz",
             "gzipBytes": 2378951
         },
         {
-            "url": "/models/body-7.bin",
+            "url": "/models/male/body-7.bin",
             "bytes": 4006940,
-            "gzip": "/models/body-7.bin.gz",
+            "gzip": "/models/male/body-7.bin.gz",
             "gzipBytes": 2385857
         },
         {
-            "url": "/models/body-8.bin",
+            "url": "/models/male/body-8.bin",
             "bytes": 4028452,
-            "gzip": "/models/body-8.bin.gz",
+            "gzip": "/models/male/body-8.bin.gz",
             "gzipBytes": 2382534
         },
         {
-            "url": "/models/body-9.bin",
+            "url": "/models/male/body-9.bin",
             "bytes": 4018260,
-            "gzip": "/models/body-9.bin.gz",
+            "gzip": "/models/male/body-9.bin.gz",
             "gzipBytes": 2259266
         },
         {
-            "url": "/models/body-10.bin",
+            "url": "/models/male/body-10.bin",
             "bytes": 4046108,
-            "gzip": "/models/body-10.bin.gz",
+            "gzip": "/models/male/body-10.bin.gz",
             "gzipBytes": 2249282
         },
         {
-            "url": "/models/body-11.bin",
+            "url": "/models/male/body-11.bin",
             "bytes": 4037528,
-            "gzip": "/models/body-11.bin.gz",
+            "gzip": "/models/male/body-11.bin.gz",
             "gzipBytes": 2319620
         },
         {
-            "url": "/models/body-12.bin",
+            "url": "/models/male/body-12.bin",
             "bytes": 4000292,
-            "gzip": "/models/body-12.bin.gz",
+            "gzip": "/models/male/body-12.bin.gz",
             "gzipBytes": 2268977
         },
         {
-            "url": "/models/body-13.bin",
+            "url": "/models/male/body-13.bin",
             "bytes": 4004548,
-            "gzip": "/models/body-13.bin.gz",
+            "gzip": "/models/male/body-13.bin.gz",
             "gzipBytes": 2165080
         },
         {
-            "url": "/models/body-14.bin",
+            "url": "/models/male/body-14.bin",
             "bytes": 2300452,
-            "gzip": "/models/body-14.bin.gz",
+            "gzip": "/models/male/body-14.bin.gz",
             "gzipBytes": 1344908
         }
     ],
